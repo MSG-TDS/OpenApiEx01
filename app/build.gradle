@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.openapiex01"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,7 @@ dependencies {
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

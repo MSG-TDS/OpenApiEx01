@@ -1,12 +1,14 @@
 package com.example.OpenApiEx01
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.recycler_item.view.*
 
-class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
+class RecyclerViewAdapter() : RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
     var dataList = mutableListOf<Parm>()
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -17,6 +19,7 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
         }
 
         init{
+
 
         }
 
@@ -31,6 +34,14 @@ class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = dataList.get(position)
         holder.setItem(item)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, GoogleMapActivity::class.java)
+            intent.putExtra("StationName", item.stationName)
+            intent.putExtra("dmX", item.dmX.toDouble())
+            intent.putExtra("dmY", item.dmY.toDouble())
+            startActivity(holder.itemView.context, intent, null)
+        }
     }
 
     override fun getItemCount(): Int {
