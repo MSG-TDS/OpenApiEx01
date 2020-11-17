@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.OpenApiEx01.DataClass.AirCondition
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.main_activity.*
 import okhttp3.OkHttpClient
@@ -71,4 +72,13 @@ interface OpenApiService {
         @Query("tmY")
         tmY : Double
     ):Call<Station>
+
+    @GET("openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty")
+    fun getMsrstnAcctoRltmMesureDnsty(
+        @Query("ServiceKey", encoded = true) serviceKey: String,
+        @Query("_returnType") returnType: String,
+        @Query("stationName", encoded = true) stationName: String,
+        @Query("dataTerm") dataTerm: String,
+        @Query("ver") ver: String
+    ): Call<AirCondition>
 }
