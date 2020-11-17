@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.recycler_item.view.*
 
 class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
-    var dataList = mutableListOf<Parm>()
+    var dataList = mutableListOf<StationDetail>()
 
     inner class Holder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        fun setItem(item: Parm) {
-            itemView.textName.text = item.stationName
-            itemView.textX.text = item.dmX
-            itemView.textY.text = item.dmY
+        fun setItem(detail: StationDetail) {
+            itemView.textName.text = detail.stationName
+            itemView.textX.text = detail.dmX
+            itemView.textY.text = detail.dmY
+            itemView.textAddr.text = detail.addr
         }
 
         init{
