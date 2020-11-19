@@ -1,8 +1,8 @@
 package com.example.OpenApiEx01
 
 data class Station(
-    val MsrstnInfoInqireSvrVo: MsrstnInfoInqireSvrVo,
-    val list: List<Parm>,
-    val parm: Parm,
+    val MsrstnInfoInqireSvrVo: StationDetail,
+    val list: List<StationDetail>,
+    val parm: StationDetail,
     val totalCount: Int
 )

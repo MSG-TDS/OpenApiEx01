@@ -27,55 +27,48 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val gson = GsonBuilder()
-            .setLenient()
-            .create()
-
         val client = OkHttpClient.Builder()
-            .connectTimeout(100, TimeUnit.SECONDS)
+            .callTimeout(10000, TimeUnit.SECONDS)
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://openapi.airkorea.or.kr/").client(client)
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .baseUrl("http://openapi.airkorea.or.kr/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         btnGet.setOnClickListener {
-            val apiService = retrofit.create(ApiService::class.java)
-            val t1 = apiService.getMsrstnList(
-                getString(R.string.apiKey),
-                "json",
-                35.232084, 128.915356
-            )
+            val service = retrofit.create(OpenApiService::class.java)
 
-            t1.enqueue(object : Callback<Station> {
+            service.getMsrstnList(
+                getString(R.string.api_key),
+                "json"
+            ).enqueue(object : Callback<Station> {
                 override fun onResponse(call: Call<Station>, response: Response<Station>) {
-                    Log.e("fail", response.toString())
-                    val resultVal = response.body() as Station
+                    val result = response.body() as Station
 
-                    val list = resultVal.list as List<Parm>
-
-                    adapter.dataList.addAll(list)
+                    adapter.dataList.clear()
+                    adapter.dataList.addAll(result.list)
                     adapter.notifyDataSetChanged()
                 }
 
                 override fun onFailure(call: Call<Station>, t: Throwable) {
-                    val list = call
-                    val tval = t
+                    Log.e("xx", t.toString())
 
                 }
             })
         }
+
+
     }
 }
 
-interface ApiService {
+interface OpenApiService{
     @GET("openapi/services/rest/MsrstnInfoInqireSvc/getMsrstnList")
     fun getMsrstnList(
-        @Query("ServiceKey", encoded = true) serviceKey: String,
-        @Query("_returnType") returnType: String,
-        @Query("tmX") tmX: Double,
-        @Query("tmY") tmY: Double
+        @Query("ServiceKey", encoded = true)
+        sk : String,
+        @Query("_returnType")
+        rt : String
     ): Call<Station>
-
 }

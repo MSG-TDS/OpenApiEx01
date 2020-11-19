@@ -1,6 +1,6 @@
 package com.example.OpenApiEx01
 
-data class Parm(
+data class StationDetail(
     val _returnType: String,
     val addr: String,
     val districtNum: String,
