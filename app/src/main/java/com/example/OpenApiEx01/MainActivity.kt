@@ -1,5 +1,6 @@
 package com.example.OpenApiEx01
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             service.getMsrstnList(
                 getString(R.string.api_key),
                 "json"
+            ,"경남"
             ).enqueue(object : Callback<Station> {
                 override fun onResponse(call: Call<Station>, response: Response<Station>) {
                     val result = response.body() as Station
@@ -59,7 +61,11 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+        btnMap.setOnClickListener{
+            val intent = Intent(this, MapsActivity::class.java)
 
+            startActivity(intent)
+        }
     }
 }
 
@@ -69,6 +75,22 @@ interface OpenApiService{
         @Query("ServiceKey", encoded = true)
         sk : String,
         @Query("_returnType")
-        rt : String
+        rt : String,
+        @Query("sidoName", encoded = true)
+        sidoName : String
     ): Call<Station>
+
+    @GET("openapi/services/rest/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty")
+    fun getCtprvnRltmMesureDnsty(
+        @Query("ServiceKey", encoded = true)
+        sk : String,
+        @Query("_returnType")
+        rt : String,
+        @Query("numOfRows")
+        numRow : Int,
+        @Query("sidoName", encoded = true)
+        sidoName : String,
+        @Query("ver")
+        ver : String
+    ): Call<AirCondition>
 }
